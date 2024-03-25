@@ -2,6 +2,9 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Header from './components/Header';
+import BalanceDisplay from './components/BalanceDisplay';
+import SendForm from './components/SendForm';
 
 const HomePage = () => {
   const [recipientId, setRecipientId] = useState('');
@@ -54,46 +57,18 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
-            <div>
-              <h1 className="text-2xl font-semibold">Satoshi Tokens</h1>
-            </div>
+            <Header />
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                <p className="mb-4">Your Balance: {balance} satoshis</p>
-                <form onSubmit={handleSend}>
-                  <div className="mb-4">
-                    <label htmlFor="recipientId" className="block mb-2">
-                      Recipient ID:
-                    </label>
-                    <input
-                      type="text"
-                      id="recipientId"
-                      value={recipientId}
-                      onChange={(e) => setRecipientId(e.target.value)}
-                      className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      required
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label htmlFor="amount" className="block mb-2">
-                      Amount:
-                    </label>
-                    <input
-                      type="number"
-                      id="amount"
-                      value={amount}
-                      onChange={(e) => setAmount(parseInt(e.target.value))}
-                      className="w-full px-3 py-2 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      required
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full px-3 py-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
-                  >
-                    Send
-                  </button>
-                </form>
+                <BalanceDisplay balance={balance} />
+                <SendForm
+                  recipientId={recipientId}
+                  setRecipientId={setRecipientId}
+                  amount={amount}
+                  setAmount={setAmount}
+                  balance={balance}
+                  onSubmit={handleSend}
+                />
                 <button
                   onClick={fetchBalance}
                   className="w-full px-3 py-4 mt-4 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
