@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from './components/Header';
-import BalanceDisplay from './components/BalanceDisplay';
 import SendForm from './components/SendForm';
 import Toast from './components/Toast';
 
@@ -61,21 +60,14 @@ const HomePage = () => {
             <Header />
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                <BalanceDisplay balance={balance} />
                 <SendForm
-                  recipientId={recipientId}
-                  setRecipientId={setRecipientId}
-                  amount={amount}
-                  setAmount={setAmount}
-                  balance={balance}
-                  onSubmit={handleSend}
+                // recipientId={recipientId}
+                // setRecipientId={setRecipientId}
+                // amount={amount}
+                // setAmount={setAmount}
+                // balance={balance}
+                // onSubmit={handleSend}
                 />
-                <button
-                  onClick={fetchBalance}
-                  className="w-full px-3 py-4 mt-4 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
-                >
-                  Refresh Balance
-                </button>
               </div>
             </div>
           </div>
