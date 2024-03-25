@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Header from './components/Header';
 import BalanceDisplay from './components/BalanceDisplay';
 import SendForm from './components/SendForm';
+import Toast from './components/Toast';
 
 const HomePage = () => {
   const [recipientId, setRecipientId] = useState('');
@@ -80,6 +81,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <Toast />
     </div>
   );
 };
