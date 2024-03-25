@@ -80,11 +80,11 @@ const SendForm = () => {
             <ul className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg">
               {suggestions.map((suggestion) => (
                 <li
-                  key={suggestion.id}
+                  key={suggestion.shortId}
                   className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  {suggestion.id} ({suggestion.name})
+                  {suggestion.shortId} ({suggestion.name})
                 </li>
               ))}
             </ul>
@@ -135,8 +135,8 @@ const SendForm = () => {
         <button
           type="submit"
           className={`w-full px-4 py-2 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50 ${isButtonDisabled
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700'
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-blue-600 hover:bg-blue-700'
             }`}
           disabled={isButtonDisabled}
         >

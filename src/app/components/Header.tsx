@@ -4,22 +4,12 @@ import { ClipboardDocumentIcon, ArrowPathIcon } from '@heroicons/react/24/outlin
 import { AppContext } from '../context/AppContext';
 
 const Header = () => {
-  const [userId, setUserId] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const { balance, fetchBalance, showNotification } = useContext(AppContext);
+  const { balance, fetchBalance, showNotification, currentUser } = useContext(AppContext);
 
-  useEffect(() => {
-    generateUserId();
-  }, []);
-
-  const generateUserId = () => {
-    // Generate a unique user ID (you can replace this with your own logic)
-    const newUserId = Math.random().toString(36).substring(7);
-    setUserId(newUserId);
-  };
 
   const copyUserId = () => {
-    navigator.clipboard.writeText(userId);
+    navigator.clipboard.writeText(currentUser!.shortId);
     showNotification('User ID copied to clipboard');
   };
 
@@ -49,7 +39,7 @@ const Header = () => {
           <div className="relative flex-1">
             <input
               type="text"
-              value={userId}
+              value={currentUser?.shortId}
               readOnly
               className="w-full px-3 py-2 text-gray-700 bg-gray-100 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
             />

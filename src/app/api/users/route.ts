@@ -1,14 +1,21 @@
 // src/app/api/users/route.ts
-import { User } from '@/types/user';
+import { sql } from "@vercel/postgres";
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  // Hardcoded list of users for now
-  const users: User[] = [
-    { id: Math.random().toString(36).substring(7), name: 'Alice' },
-    { id: Math.random().toString(36).substring(7), name: 'Bob' },
-    { id: Math.random().toString(36).substring(7), name: 'Charlie' },
-  ];
+  try {
+    const { rows } = await sql`SELECT * FROM users`;
 
-  return NextResponse.json({ users });
+    const users = rows.map((row) => ({
+      id: row.id,
+      name: row.name,
+    }));
+
+    return NextResponse.json({ users });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+  }
 }
+
+export const dynamic = 'force-dynamic'
