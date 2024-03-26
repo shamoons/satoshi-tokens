@@ -6,5 +6,10 @@
   ],
   "devDependencies": {
     "typescript": "^5.4.3"
+  },
+  "scripts": {
+    "api:build": "npm run build --prefix packages/api",
+    "api:start": "npm run start --prefix packages/api",
+    "api:dev": "npm run dev --prefix packages/api"
   }
 }
