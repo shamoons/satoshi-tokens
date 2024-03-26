@@ -1,13 +1,14 @@
-// packages/api/src/index.ts
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+
+
+
 import usersRouter from './routes/users';
 import balanceRouter from './routes/balance';
 import sendRouter from './routes/send';
 
-const env = dotenv.config();
-dotenvExpand.expand(env);
+dotenv.config();
+
 
 const app: Express = express();
 const port = process.env.PORT || 3000;

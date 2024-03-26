@@ -10,6 +10,9 @@
   "scripts": {
     "api:build": "npm run build --prefix packages/api",
     "api:start": "npm run start --prefix packages/api",
-    "api:dev": "npm run dev --prefix packages/api"
+    "api:dev": "npm run dev --prefix packages/api",
+    "frontend:start": "npm run start --prefix packages/frontend",
+    "frontend:build": "npm run build --prefix packages/frontend",
+    "frontend:test": "npm run test --prefix packages/frontend"
   }
 }
