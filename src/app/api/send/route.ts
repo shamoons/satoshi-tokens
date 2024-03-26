@@ -1,17 +1,41 @@
 // src/app/api/send/route.ts
-import { sql } from "@vercel/postgres";
+import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
+
+const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   const { senderId, recipientId, amount } = await request.json();
 
   try {
-    // TODO: Need to implement this as a transaction
-    const { rows: senderBalanceRows } = await sql`UPDATE users SET balance = balance - ${amount} WHERE id = ${senderId}`;
-    const { rows: recipientBalanceRows } = await sql`UPDATE users SET balance = balance + ${amount} WHERE id = ${recipientId}`;
-    const { rows: transactionRows } = await sql`INSERT INTO transactions (sender_id, recipient_id, amount) VALUES (${senderId}, ${recipientId}, ${amount})`;
+    // Start transaction
+    await prisma.$transaction(async (tx: any) => {
+      // Update sender balance
+      const sender = await tx.user.update({
+        where: { id: senderId },
+        data: { balance: { decrement: amount } },
+      });
 
-    console.log({ senderBalanceRows, recipientBalanceRows, transactionRows })
+      // Check if sender has enough balance
+      if (sender.balance < 0) {
+        throw new Error('Insufficient balance');
+      }
+
+      // Update recipient balance
+      await tx.user.update({
+        where: { id: recipientId },
+        data: { balance: { increment: amount } },
+      });
+
+      // Insert transaction
+      await tx.transaction.create({
+        data: {
+          senderId,
+          recipientId,
+          amount,
+        },
+      });
+    });
 
     return NextResponse.json({ message: 'Tokens sent successfully' });
   } catch (error) {

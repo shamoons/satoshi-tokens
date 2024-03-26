@@ -1,6 +1,8 @@
 // src/app/api/balance/route.ts
-import { sql } from "@vercel/postgres";
+import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
+
+const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   try {
@@ -11,20 +13,22 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'userId is required' }, { status: 400 });
     }
 
-    const { rows } = await sql`
-      SELECT balance
-      FROM users
-      WHERE CAST(id AS TEXT) LIKE ${userId + '%'}
-    `;
-    // TODO: Fix this. Currently, we're using a shortened userId for demonstration purposes
+    const user = await prisma.user.findFirst({
+      where: {
+        id: {
+          startsWith: userId,
+        },
+      },
+      select: {
+        balance: true,
+      },
+    });
 
-    if (rows.length === 0) {
+    if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const { balance } = rows[0];
-
-    return NextResponse.json({ balance });
+    return NextResponse.json({ balance: user.balance });
   } catch (error) {
     console.error('Error fetching balance:', error);
     return NextResponse.json({ error: 'Failed to fetch balance' }, { status: 500 });

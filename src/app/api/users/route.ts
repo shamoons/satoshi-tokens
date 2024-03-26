@@ -1,15 +1,17 @@
 // src/app/api/users/route.ts
-import { sql } from "@vercel/postgres";
+import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
+
+const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const { rows } = await sql`SELECT * FROM users`;
-
-    const users = rows.map((row) => ({
-      id: row.id,
-      name: row.name,
-    }));
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
 
     return NextResponse.json({ users });
   } catch (error) {
@@ -18,4 +20,4 @@ export async function GET() {
   }
 }
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
