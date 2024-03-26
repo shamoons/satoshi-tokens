@@ -1,7 +1,7 @@
 // src/app/components/SendForm.tsx
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
-import { User } from '@/types/user';
+import { User } from '../../types/user';
 
 const SendForm = () => {
   const { balance, users, sendTokens } = useContext(AppContext);

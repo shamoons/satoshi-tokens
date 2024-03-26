@@ -1,4 +1,5 @@
 // src/app/components/Header.tsx
+import React from "react"
 import { useState, useEffect, useContext } from 'react';
 import { ClipboardDocumentIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { AppContext } from '../context/AppContext';
